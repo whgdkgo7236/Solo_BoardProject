@@ -6,6 +6,7 @@
     <style>
         .field-error{
             color: red;
+
         }
 
     </style>
@@ -14,6 +15,9 @@
     <h2>save.html</h2>
 
     <form action="/member/save" method="post" th:object="${member}">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err: ${#fields.globalErrors()}" th:text="${err}">글로벌오류</p>
+        </div>
         이메일 :<input type="text" th:field="*{memberEmail}"><br>
             <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}" th:errorclass="field-error"> </p>
         비밀번호 :<input type="text" th:field="*{memberPassword}"><br>
