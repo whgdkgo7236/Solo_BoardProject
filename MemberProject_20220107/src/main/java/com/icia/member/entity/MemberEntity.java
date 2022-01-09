@@ -4,7 +4,6 @@ import com.icia.member.dto.MemberSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -12,33 +11,29 @@ import javax.persistence.*;
 @Setter
 @Table(name = "member_table")
 public class MemberEntity {
-    @Id /* @Id pk 만든다는뜻*/
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
-    @Column(name = "member_id") //별도 컬럼을 지정
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//db에따라 strategy 다름
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(length = 50,unique = true, name= "memberEmail")
+    @Column(length = 50, unique = true)
     private String memberEmail;
 
     @Column(length = 20)
     private String memberPassword;
-    // 안쓰면 크기는 255로 지정된다.    ㅊ    private String memberName;
-    private String memberName;
-    /*
-    *   DTO클래스 객체를 전달받아 Entity클래스 필드값으로 세팅하고
-    *   entity 객체를 리턴하는 메서드선언
-    *
-    *   static 메서드(정적메서드)사용 : 클래스 메서드, 객체를 만들지 않고도 바로 호출 가능.
-   * */
 
+    @Column
+    private String memberName;
+
+    //MemberSaveDTO-> MemberEntity 객체로 변환하기위한 메서드
     public static MemberEntity saveMember(MemberSaveDTO memberSaveDTO){
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setMemberEmail(memberSaveDTO.getMemberEmail());
+        String memberEmail = memberSaveDTO.getMemberEmail();
+        memberEntity.setMemberEmail(memberEmail);
+
         memberEntity.setMemberPassword(memberSaveDTO.getMemberPassword());
         memberEntity.setMemberName(memberSaveDTO.getMemberName());
 
         return memberEntity;
     }
-
-
 }
