@@ -8,16 +8,21 @@
     <h2>findById.html</h2>
     <table>
         <thead>
-            <tr>번호</tr>
-            <tr>이메일</tr>
-            <tr>비밀번호</tr>
-            <tr>이름</tr>
+            <tr>
+                <th>번호</th>
+                <th>이메일</th>
+                <th>비밀번호</th>
+                <th>이름</th>
+            </tr>
+
         </thead>
         <tbody>
-            <td th:text="${member.memberId}"></td>
-            <td th:text="${member.memberEmail}"></td>
-            <td th:text="${member.memberPassword}"></td>
-            <td th:text="${member.memberName}"></td>
+            <tr>
+                <td th:text="${member.memberId}"></td>
+                <td th:text="${member.memberEmail}"></td>
+                <td th:text="${member.memberPassword}"></td>
+                <td th:text="${member.memberName}"></td>
+            </tr>
         </tbody>
     </table>
 
