@@ -27,7 +27,7 @@
                 <td th:text="${member.memberName}">이름</td>
                 <td><a th:href="@{|/member/${member.memberId}|}">조회</a></td>
                 <td></td>
-                <td></td>
+                <td><a th:href="@{|/member/delete${member.memberId}|}">삭제</a></td>
                 <td></td>
             </tr>
         </tbody>

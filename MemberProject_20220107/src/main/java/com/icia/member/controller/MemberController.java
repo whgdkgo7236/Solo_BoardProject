@@ -59,8 +59,8 @@ public class MemberController {
     public String findAll(Model model){
         List<MemberDetailDTO> memberList=ms.findAll();
         System.out.println("findAll = " +memberList);
-        model.addAttribute("memberList",memberList);
 
+        model.addAttribute("memberList",memberList);
         return "member/findAll";
     }
 
@@ -70,5 +70,12 @@ public class MemberController {
        MemberDetailDTO member = ms.findById(memberId);
        model.addAttribute("member",member);
        return "member/findById";
+    }
+
+    // 회원삭제 (/member/delete/5)
+    @GetMapping("delete/{memberId}")
+    public String deleteById(@PathVariable("memberId") Long memberId){
+        ms.deleteById(memberId);
+        return "redirect:/member/";
     }
 }
