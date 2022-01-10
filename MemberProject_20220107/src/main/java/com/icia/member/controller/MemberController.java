@@ -125,4 +125,12 @@ public class MemberController {
         return "redirect:/member/"+memberDetailDTO.getMemberId();
         //왜 리다이랙트까지 필요한거지?
     }
+    //수정처리(put)
+    @PutMapping("{memberId}")
+    // json 으로 데이터가 전달되면 @RequestBody로 받아줘야함.
+    public ResponseEntity update2(@RequestBody MemberDetailDTO memberDetailDTO){
+        Long memberId = ms.update(memberDetailDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

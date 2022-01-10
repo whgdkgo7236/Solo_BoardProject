@@ -7,14 +7,35 @@
     <script>
         const memberUpdate =() =>{
             console.log("수정함수호출");
-            const memberId = document.getElementById("memberId").value;
-            const memberEmail = document.getElementById("memberEmail").value;
-            const memberPassword = document.getElementById("memberPassword").value;
-            const memberName = document.getElementById("memberName").value;
+            const id = document.getElementById("memberId").value;
+            const email = document.getElementById("memberEmail").value;
+            const password = document.getElementById("memberPassword").value;
+            const name = document.getElementById("memberName").value;
             //const memberId = document.querySelector("#memberId").value;
             //const memberId = $("#memberId").val();
             //const memberId = "[[${member.memberId}]]";
             //dom java 에서 html을 컨트롤할수 있도록하는것
+            //javascript object에 담아서 ajax로 컨트롤러에 보냄
+            const updateData = JSON.stringify({
+                memberId:id,
+                memberEmail: email,
+                memberPassword: password,
+                memberName: name
+            });
+            console.log(updateData);
+            const reqUrl = "/member/"+id;
+            $.ajax({
+                type: "put", //수정에대한요청은 put, patch 가있다 put은 덮어씌우기  patch 수정에필요한것만바꾸기
+                data: updateData,
+                url: reqUrl,
+                contentType: "application/json", //json으로 보낼때 꼭써야함
+                success: function(){
+                    location.href = "/member/" + id;
+                },
+                error: function (){
+                    alert("ajax 실패");
+                }
+            });
         }
     </script>
 </head>

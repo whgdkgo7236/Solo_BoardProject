@@ -55,4 +55,11 @@ public class MemberTest {
         });
 
     }
+    @Test
+    @Transactional
+    @Rollback
+    @DisplayName("updatetest")
+    public void Test_update(){
+
+    }
 }
