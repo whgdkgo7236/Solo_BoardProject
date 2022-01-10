@@ -46,12 +46,13 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<MemberDetailDTO> findAll() {
         List<MemberEntity> memberEntityList = mr.findAll();
+
         List<MemberDetailDTO> memberList = new ArrayList<>();
         for(MemberEntity m:memberEntityList){
             memberList.add(MemberDetailDTO.toMemberDetailDTO(m));
         }
 
-        return null;
+        return memberList;
     }
 
     @Override
@@ -65,5 +66,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void deleteById(Long memberId) {
         mr.deleteById(memberId);
+    }
+
+    @Override
+    public MemberDetailDTO findByEmail(String memberEmail) {
+        MemberDetailDTO memberDetailDTO = MemberDetailDTO.toMemberDetailDTO(mr.findByMemberEmail(memberEmail));
+        return memberDetailDTO;
     }
 }

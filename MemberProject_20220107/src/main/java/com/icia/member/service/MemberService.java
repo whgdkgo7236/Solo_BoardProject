@@ -16,4 +16,6 @@ public interface MemberService {
     MemberDetailDTO findById(Long memberId);
 
     void deleteById(Long memberId);
+
+    MemberDetailDTO findByEmail(String memberEmail);
 }
