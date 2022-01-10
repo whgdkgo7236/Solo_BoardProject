@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const memberUpdate =() =>{
+            console.log("수정함수호출");
+            const memberId = document.getElementById("memberId").value;
+            const memberEmail = document.getElementById("memberEmail").value;
+            const memberPassword = document.getElementById("memberPassword").value;
+            const memberName = document.getElementById("memberName").value;
+            //const memberId = document.querySelector("#memberId").value;
+            //const memberId = $("#memberId").val();
+            //const memberId = "[[${member.memberId}]]";
+            //dom java 에서 html을 컨트롤할수 있도록하는것
+        }
+    </script>
 </head>
 <body>
     <h2>update.html</h2>
     <form action="/member/update" method="post">
-        <input type="hidden" name="memberId" th:value="${member.memberId}" ><br>
-        <input type="text" name="memberEmail" th:value="${member.memberEmail}" placeholder="이메일"><br>
-        <input type="text" name="memberPassword" th:value="${member.memberPassword}" placeholder="비밀번호"><br>
-        <input type="text" name="memberName" th:value="${member.memberName}" placeholder="이름"><br>
+        <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}" ><br>
+        <input type="text" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}" placeholder="이메일" readonly><br>
+        <input type="text" id="memberPassword" name="memberPassword" th:value="${member.memberPassword}" placeholder="비밀번호"><br>
+        <input type="text" id="memberName" name="memberName" th:value="${member.memberName}" placeholder="이름"><br>
         <input type="submit"  value="수정">
+        <input type="button" value="수정(put)" th:onclick="memberUpdate()">
     </form>
 </body>
 </html>

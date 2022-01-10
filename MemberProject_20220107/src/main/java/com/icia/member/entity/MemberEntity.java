@@ -1,5 +1,6 @@
 package com.icia.member.entity;
 
+import com.icia.member.dto.MemberDetailDTO;
 import com.icia.member.dto.MemberSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,16 @@ public class MemberEntity {
 
         memberEntity.setMemberPassword(memberSaveDTO.getMemberPassword());
         memberEntity.setMemberName(memberSaveDTO.getMemberName());
+
+        return memberEntity;
+    }
+    //MemberDetailDTO - >MemberEntity
+    public static MemberEntity toupdateMember(MemberDetailDTO memberDetailDTO){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setId(memberDetailDTO.getMemberId());
+        memberEntity.setMemberEmail(memberDetailDTO.getMemberEmail());
+        memberEntity.setMemberPassword(memberDetailDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDetailDTO.getMemberName());
 
         return memberEntity;
     }

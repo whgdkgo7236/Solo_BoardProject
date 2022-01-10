@@ -73,4 +73,13 @@ public class MemberServiceImpl implements MemberService{
         MemberDetailDTO memberDetailDTO = MemberDetailDTO.toMemberDetailDTO(mr.findByMemberEmail(memberEmail));
         return memberDetailDTO;
     }
+
+    @Override
+    public Long update(MemberDetailDTO memberDetailDTO) {
+        //update 처리시 save 메서드 호출
+        //MemberDetailDTO -> MemberEntity
+        MemberEntity memberEntity =MemberEntity.toupdateMember(memberDetailDTO);
+        Long memberId=mr.save(memberEntity).getId();
+        return memberId;
+    }
 }

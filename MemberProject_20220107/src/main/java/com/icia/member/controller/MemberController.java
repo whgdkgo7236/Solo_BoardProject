@@ -32,7 +32,7 @@ public class MemberController {
     //회원가입
     @PostMapping("save")
     public String save(@ModelAttribute MemberSaveDTO memberSaveDTO){
-        System.out.println("세이브 들어옴");
+        System.out.println(memberSaveDTO.getMemberEmail()+" "+memberSaveDTO.getMemberName()+" "+memberSaveDTO.getMemberName());
         Long memberId = ms.save(memberSaveDTO);
        
         return "member/login";
@@ -65,7 +65,7 @@ public class MemberController {
 
         List<MemberDetailDTO> memberList=ms.findAll();
 
-
+        System.out.println(memberList);
         model.addAttribute("memberList",memberList);
         return "member/findAll";
     }
@@ -113,5 +113,16 @@ public class MemberController {
         MemberDetailDTO member =ms.findByEmail(memberEmail);
         model.addAttribute("member",member);
         return "member/update";
+    }
+
+    //수정처리
+    @PostMapping("update")
+    public String update(@ModelAttribute MemberDetailDTO memberDetailDTO){
+        System.out.println(memberDetailDTO);
+        Long memberId=ms.update(memberDetailDTO);
+        //수정완료후 해당회원의 상세페이지 출력
+
+        return "redirect:/member/"+memberDetailDTO.getMemberId();
+        //왜 리다이랙트까지 필요한거지?
     }
 }

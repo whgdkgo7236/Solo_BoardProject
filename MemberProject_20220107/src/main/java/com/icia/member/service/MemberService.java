@@ -18,4 +18,6 @@ public interface MemberService {
     void deleteById(Long memberId);
 
     MemberDetailDTO findByEmail(String memberEmail);
+
+    Long update(MemberDetailDTO memberDetailDTO);
 }
