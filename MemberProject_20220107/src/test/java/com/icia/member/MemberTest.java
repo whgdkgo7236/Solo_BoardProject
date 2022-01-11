@@ -61,5 +61,27 @@ public class MemberTest {
     @DisplayName("updatetest")
     public void Test_update(){
 
+        MemberSaveDTO memberSaveDTO = new MemberSaveDTO("이메일1","패스워드1","이름1");
+        Long memberId=ms.save(memberSaveDTO);
+        String memberName =memberSaveDTO.getMemberName();
+        String updateName = "update";
+
+
+        MemberDetailDTO memberDetailDTO=ms.findById(memberId);
+        memberDetailDTO.setMemberName(updateName);
+        memberId= ms.update(memberDetailDTO);
+
+        assertThat(updateName).isEqualTo(memberDetailDTO.getMemberName());
+        //isBotEqualTo 달라야통과
+        //assertThat(updateName).isNotEqualTo(memberDetailDTO.getMemberName());
+
+
+        /*
+        1.신규회원등록
+        2.신규등록한 회원에 대한 이름 수정
+        3. 신규등록시 사용한 이름과 DB에 저장된 이름이 일치하는지판단
+        4.일치하지않아야 테스트통과
+         */
+
     }
 }

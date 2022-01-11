@@ -32,7 +32,6 @@ public class MemberController {
     //회원가입
     @PostMapping("save")
     public String save(@ModelAttribute MemberSaveDTO memberSaveDTO){
-        System.out.println(memberSaveDTO.getMemberEmail()+" "+memberSaveDTO.getMemberName()+" "+memberSaveDTO.getMemberName());
         Long memberId = ms.save(memberSaveDTO);
        
         return "member/login";
@@ -46,13 +45,16 @@ public class MemberController {
     }
     //login
     @PostMapping("login")
-    public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session,Model model){
+    public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpSession session,Model model,
+                        @RequestParam(defaultValue = "/") String redirectURL){
+        System.out.println("MemberController.login");
+        System.out.println("rediretURL = "+ redirectURL);
         boolean loginResult =ms.login(memberLoginDTO);
         if(loginResult){
             session.setAttribute(LOGIN_EMAIL,memberLoginDTO.getMemberEmail());
 
 //            return "redirect:/member/";
-            return"member/mypage";
+            return "redirect:"+redirectURL;
         }else{
             return "member/login";
         }
@@ -96,12 +98,7 @@ public class MemberController {
     @DeleteMapping("{memberId}")
     public ResponseEntity deleteById2(@PathVariable Long memberId){
         System.out.println(memberId);
-        /*
-            // 단순 화면 출력이 아닌 데이터를 리턴하고자 할때 사용하는 리턴방식(restful을 할떄 많이사용)
-            ResponseEntity : 데이터 & 상태코드(http상태코드 ex(200,404,405,500 등))를 함께 리턴할 수 있음.
-            @ResponseBody : 데이터를 리턴할 수 있다.
-         */
-        // 200 코드를 리턴
+
         ms.deleteById(memberId);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -129,6 +126,12 @@ public class MemberController {
     @PutMapping("{memberId}")
     // json 으로 데이터가 전달되면 @RequestBody로 받아줘야함.
     public ResponseEntity update2(@RequestBody MemberDetailDTO memberDetailDTO){
+        /*
+            // 단순 화면 출력이 아닌 데이터를 리턴하고자 할때 사용하는 리턴방식(restful을 할떄 많이사용)
+            ResponseEntity : 데이터 & 상태코드(http상태코드 ex(200,404,405,500 등))를 함께 리턴할 수 있음.
+            @ResponseBody : 데이터를 리턴할 수 있다.
+         */
+        // 200 코드를 리턴
         Long memberId = ms.update(memberDetailDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
