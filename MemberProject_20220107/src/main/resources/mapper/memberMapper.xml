@@ -8,4 +8,8 @@
         select * from member_table
     </select>
 
+    <insert id="save" parameterType="com.icia.member.dto.MemberMapperDTO">
+        insert into member_table(member_email,member_password,member_name)
+        value (#{member_email},#{member_password},#{member_name})
+    </insert>
 </mapper>

@@ -97,5 +97,20 @@ public class MemberTest {
         for(MemberMapperDTO m : memberList){
             System.out.println("m.tostring() = "+ m.toString());
         }
+
+        List<MemberMapperDTO> memberList2 = mmr.memberList();
+        for(MemberMapperDTO m : memberList2){
+            System.out.println("m.tostring() = "+ m.toString());
+        }
+    }
+
+    @Test
+    @DisplayName("mybatis 회원가입 테스트")
+    public void memberSaveTest(){
+        MemberMapperDTO memberMapperDTO = new MemberMapperDTO("mmr회원이메일1", "mmr회원비번1", "mmr회원이름1");
+        mmr.save(memberMapperDTO);
+        MemberMapperDTO memberMapperDTO2 = new MemberMapperDTO("mmr회원이메일2", "mmr회원비번2", "mmr회원이름3");
+        mmr.save(memberMapperDTO2);
+
     }
 }
