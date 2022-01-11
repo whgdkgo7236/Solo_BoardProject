@@ -1,7 +1,9 @@
 package com.icia.member;
 
 import com.icia.member.dto.MemberDetailDTO;
+import com.icia.member.dto.MemberMapperDTO;
 import com.icia.member.dto.MemberSaveDTO;
+import com.icia.member.repository.MemberMapperRepository;
 import com.icia.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MemberTest {
     @Autowired
     private MemberService ms;
+
+    @Autowired
+    private MemberMapperRepository mmr;
 
     @Test
     @DisplayName("회원데이터생성")
@@ -83,5 +88,14 @@ public class MemberTest {
         4.일치하지않아야 테스트통과
          */
 
+    }
+
+    @Test
+    @DisplayName("mybatis 목록 출력 테스트")
+    public void memberListTest(){
+        List<MemberMapperDTO> memberList = mmr.memberList();
+        for(MemberMapperDTO m : memberList){
+            System.out.println("m.tostring() = "+ m.toString());
+        }
     }
 }

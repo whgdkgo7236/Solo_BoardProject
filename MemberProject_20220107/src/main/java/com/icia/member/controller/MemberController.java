@@ -54,13 +54,17 @@ public class MemberController {
             session.setAttribute(LOGIN_EMAIL,memberLoginDTO.getMemberEmail());
 
 //            return "redirect:/member/";
-            return "redirect:"+redirectURL;
+            return "redirect:"+redirectURL; //사용자가 요청한 주소로 다시보내준다.
         }else{
             return "member/login";
         }
 
     }
-
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "index";
+    }
     //회원목록
     @GetMapping
     public String findAll(Model model){
