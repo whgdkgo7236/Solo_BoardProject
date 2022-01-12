@@ -24,7 +24,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(session.getAttribute(SessionConst.LOGIN_EMAIL) == null){
             //미로그인 상태
             //로그인을 하지 않은 경우바로 로그인페이지로 보냄. 로그인을 하면 요청한 화면으 ㄹ 보여줌.
-            response.sendRedirect("/member/login?redirectURL="+requestURI);
+
+            session.setAttribute("redirectURL",requestURI);
+            response.sendRedirect("/member/login");
 
             return false;
         }else{
