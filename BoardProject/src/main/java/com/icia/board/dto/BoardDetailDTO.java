@@ -21,7 +21,7 @@ public class BoardDetailDTO {
     public static BoardDetailDTO toBoardEntity(BoardEntity boardEntity){
         BoardDetailDTO boardDetailDTO = new BoardDetailDTO();
         boardDetailDTO.setBoardId(boardEntity.getId());
-        boardDetailDTO.setBoardDate(boardEntity.getBoardDate());
+        boardDetailDTO.setBoardDate(boardEntity.getCreateTime());
         boardDetailDTO.setBoardContents(boardEntity.getBoardContenst());
         boardDetailDTO.setBoardTitle(boardEntity.getBoardTitle());
         boardDetailDTO.setBoardWriter(boardEntity.getBoardWriter());
