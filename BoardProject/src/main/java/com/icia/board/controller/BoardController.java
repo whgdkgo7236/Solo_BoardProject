@@ -29,6 +29,7 @@ public class BoardController {
 
     @GetMapping("save")
     public String saveForm(){
+
         return "/board/save";
     }
 
@@ -46,8 +47,8 @@ public class BoardController {
         log.info("findAll 호출");
         return "board/findAll";
     }
-*/
 
+*/
     //페이징 처리(/board?page=5) -> 쿼리스트링 방식
     //5번글(/board/5)
     @GetMapping()

@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -31,12 +33,20 @@ public class BoardEntity extends BaseEntity{
     @Column(length = 500)
     private String boardContenst;
 
+    //회원 엔티티와의 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private MemberEntity memberEntity;
+
+    //댓글 연관관계
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
 //    @Column(length = 100)
 //    private LocalDateTime boardDate;
-
-    public static BoardEntity saveBoard(BoardSaveDTO boardSaveDTO){
+    public static BoardEntity saveBoard(BoardSaveDTO boardSaveDTO,MemberEntity memberEntity){
         BoardEntity boardEntity = new BoardEntity();
-        boardEntity.setBoardWriter(boardSaveDTO.getB_writer());
+//        boardEntity.setBoardWriter(boardSaveDTO.getB_writer());
         boardEntity.setBoardPassword(boardSaveDTO.getB_password());
         boardEntity.setBoardTitle(boardSaveDTO.getB_title());
         boardEntity.setBoardContenst(boardSaveDTO.getB_contents());
@@ -55,4 +65,6 @@ public class BoardEntity extends BaseEntity{
 
         return boardEntity;
     }
+
+
 }
