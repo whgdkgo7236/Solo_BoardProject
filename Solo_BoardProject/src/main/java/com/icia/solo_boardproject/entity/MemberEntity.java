@@ -1,9 +1,11 @@
 package com.icia.solo_boardproject.entity;
 
+import com.icia.solo_boardproject.dto.MemberLoginDTO;
 import com.icia.solo_boardproject.dto.MemberSaveDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 
 import javax.persistence.*;
 
@@ -17,7 +19,7 @@ public class MemberEntity extends BaseEntity{
     @Column
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String memberEmail;
 
     @Column
@@ -48,13 +50,22 @@ public class MemberEntity extends BaseEntity{
 
     public static MemberEntity toSaveEntity(MemberSaveDTO memberSaveDTO){
         MemberEntity entity = new MemberEntity();
-        entity.setMemberEmail(memberSaveDTO.getM_email());
-        entity.setMemberName(memberSaveDTO.getM_name());
-        entity.setMemberPassword(memberSaveDTO.getM_password());
-        entity.setMemberPhonenum(memberSaveDTO.getM_phonenum());
-        entity.setFilename(memberSaveDTO.getM_filename());
+        entity.setId(memberSaveDTO.getId());
+        entity.setMemberEmail(memberSaveDTO.getMemberEmail());
+        entity.setMemberName(memberSaveDTO.getMemberName());
+        entity.setMemberPassword(memberSaveDTO.getMemberPassword());
+        entity.setMemberPhonenum(memberSaveDTO.getMemberPhonenum());
+        entity.setFilename(memberSaveDTO.getMemberFilename());
         entity.setFilePath(memberSaveDTO.getFilePath());
         entity.setOrigFilename(memberSaveDTO.getOrigFilename());
+
+        return  entity;
+    }
+    public static MemberEntity toLoginEntity(MemberLoginDTO memberLoginDTO){
+        MemberEntity entity = new MemberEntity();
+        entity.setMemberEmail(memberLoginDTO.getMemberEmail());
+        entity.setId(memberLoginDTO.getId());
+        entity.setMemberPassword(memberLoginDTO.getMemberPassword());
 
         return  entity;
     }

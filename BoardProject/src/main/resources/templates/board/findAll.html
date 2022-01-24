@@ -64,7 +64,7 @@
                     <span th:text="${board.boardTitle}"></span></a></td>
                 <td th:text="${board.boardWriter}"></td>
                 <td th:text="${board.boardDate}"></td>
-                <td><button th:onclick="detail([[${board.boardId}]])">상세조회/button></td>
+                <td><button th:onclick="detail([[${board.boardId}]])">상세조회</button></td>
                 <!-- 제목 클릭하면 상세조회화면-->
                 <!-- ajax를 이용한 상세조회를 해봅시다.-->
             </tr>
