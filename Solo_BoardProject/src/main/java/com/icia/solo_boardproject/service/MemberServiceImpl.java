@@ -123,4 +123,10 @@ public class MemberServiceImpl implements MemberService {
         mr.deleteById(memberid);
     }
 
+    @Override
+    public String findSessionEmail() {
+        return (String)session.getAttribute("email");
+    }
+
+
 }

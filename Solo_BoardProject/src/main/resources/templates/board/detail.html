@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <h2>detail.html</h2>
+    <table>
+        <tr>
+            <th>글번호</th>
+            <th>글제목</th>
+            <th>글작성자</th>
+            <th>글내용</th>
+            <th>글조회수</th>
+            <th>글첨부파일</th>
+            <th>삭제</th>
+            <th>수정하기</th>
+        </tr>
+        <tr>
+            <td th:text="${boardList.id}"></td>
+            <td th:text="${boardList.boardTitle}"></td>
+            <td th:text="${boardList.boardWriter}"></td>
+            <td th:text="${boardList.boardContents}"></td>
+            <td th:text="${boardList.boardHits}"></td>
+            <td th:multiple="${boardList.filePath}"></td>
+            <td><button th:onclick="deletebtn([[${boardList.id}]])">삭제</button></td>
+            <td><button th:onclick="updatebtn([[${boardList.id}]])" id="updatebtn">업데이트</button> </td>
+        </tr>
+    </table>
+</body>
+<script>
+    const updateBtn = document.getElementById("updatebtn");
+    const sessionEmail="[[${sessionEmail}]]";
+
+    const boardEmail = "[[${boardList.boardWriter}]]";
+
+    if(sessionEmail==boardEmail){
+        updateBtn.style.visibility="visible";
+    }else{
+        updateBtn.style.visibility="hidden";
+    }
+    function updatebtn(id){
+        location.href="/board/update";
+    }
+
+    function deletebtn(boardid){
+        const reqUrl = "/board/"+boardid;
+
+        $.ajax({
+            type: 'delete',
+            url: reqUrl ,
+
+            success: function (){
+                console.log("성공");
+                location.href="/board/";
+            },
+            error: function (){
+                alert("ajax실패");
+            }
+        });
+    }
+</script>
+
+</html>

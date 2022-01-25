@@ -90,7 +90,7 @@ public class MemberController {
     }
     @DeleteMapping("{memberid}")
     public ResponseEntity delete(@PathVariable Long memberid){
-        System.out.println("삭제들어옴");
+
         ms.deleteById(memberid);
         return new ResponseEntity(HttpStatus.OK);
     }

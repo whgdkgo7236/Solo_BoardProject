@@ -23,4 +23,7 @@ public interface MemberService {
     Page<MemberPagingDTO> paging(Pageable pageable);
 
     void deleteById(Long memberid);
+
+
+    String findSessionEmail();
 }

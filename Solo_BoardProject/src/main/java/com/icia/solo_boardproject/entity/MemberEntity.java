@@ -8,6 +8,8 @@ import lombok.Setter;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,6 +41,12 @@ public class MemberEntity extends BaseEntity{
 
     @Column
     private String filePath;
+
+    @OneToMany(mappedBy = "memberEntity",fetch = FetchType.LAZY)
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "commentEntity",fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     @Builder
     public void File(Long id,String origFilename, String filename,String filePath){
