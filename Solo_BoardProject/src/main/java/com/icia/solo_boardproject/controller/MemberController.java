@@ -42,10 +42,11 @@ public class MemberController {
     }
     @PostMapping("login")
     public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, Model model){
+
         Long memberId =ms.findByEmail(memberLoginDTO.getMemberEmail());
         memberLoginDTO.setId(memberId);
         model.addAttribute("member",memberLoginDTO);
-        System.out.println("login"+memberId);
+
         return "/member/main";
     }
 

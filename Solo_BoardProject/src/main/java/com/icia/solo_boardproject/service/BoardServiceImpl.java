@@ -2,21 +2,29 @@ package com.icia.solo_boardproject.service;
 
 import com.icia.solo_boardproject.dto.BoardDetailDTO;
 import com.icia.solo_boardproject.dto.BoardPagingDTO;
+import com.icia.solo_boardproject.dto.BoardSaveDTO;
 import com.icia.solo_boardproject.dto.MemberPagingDTO;
 import com.icia.solo_boardproject.entity.BoardEntity;
 import com.icia.solo_boardproject.entity.MemberEntity;
 import com.icia.solo_boardproject.repository.BoardRepository;
+import com.icia.solo_boardproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Member;
 
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService{
     private final BoardRepository br;
+    private final MemberRepository mr;
 
     public static  final int PAGE_LIMIT = 3;
     @Override
@@ -48,5 +56,26 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void deleteById(Long boardid) {
         br.deleteById(boardid);
+    }
+
+    @Override
+    public Long save(BoardSaveDTO boardSaveDTO) throws IOException {
+        System.out.println("boardSaveDTO = " + boardSaveDTO);
+        MultipartFile b_file = boardSaveDTO.getBoardFile();
+        String b_originfilename = b_file.getOriginalFilename();
+        boardSaveDTO.setOrigFilename(b_originfilename);
+        String b_filename = System.currentTimeMillis()+"-"+b_originfilename;
+        String savePath = "C:\\code\\imagedownloads\\"+b_filename;
+        boardSaveDTO.setFilePath(savePath);
+        if(!b_file.isEmpty()){
+            b_file.transferTo(new File(savePath));
+        }
+        boardSaveDTO.setBoardFilename(b_filename);
+
+
+        MemberEntity memberEntity= mr.findById(boardSaveDTO.getId()).get();
+        BoardEntity boardEntity = BoardEntity.toSaveEntity(boardSaveDTO,memberEntity);
+
+        return br.save(boardEntity).getId();
     }
 }

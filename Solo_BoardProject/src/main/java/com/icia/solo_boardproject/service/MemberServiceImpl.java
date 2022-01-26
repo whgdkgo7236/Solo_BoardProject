@@ -6,19 +6,16 @@ import com.icia.solo_boardproject.dto.MemberSaveDTO;
 import com.icia.solo_boardproject.entity.MemberEntity;
 import com.icia.solo_boardproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -126,6 +123,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String findSessionEmail() {
         return (String)session.getAttribute("email");
+    }
+
+    @Override
+    public Long findSessionId() {
+        return (Long)session.getAttribute("id");
     }
 
 

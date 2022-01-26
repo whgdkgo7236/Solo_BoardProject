@@ -1,6 +1,7 @@
 package com.icia.solo_boardproject.entity;
 
 
+import com.icia.solo_boardproject.dto.CommentSaveDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,14 +21,18 @@ public class CommentEntity extends BaseEntity{
     @JoinColumn(name = "boardId")
     private BoardEntity boardEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
-    private MemberEntity memberEntity;
-
     @Column
     private String commentWriter;
 
     @Column
     private String commentContents;
 
+    public static CommentEntity toSaveEntity(CommentSaveDTO commentSaveDTO, BoardEntity boardEntity){
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setCommentWriter(commentSaveDTO.getCommentWriter());
+        commentEntity.setCommentContents(commentSaveDTO.getCommentContents());
+
+        commentEntity.setBoardEntity(boardEntity);
+        return commentEntity;
+    }
 }

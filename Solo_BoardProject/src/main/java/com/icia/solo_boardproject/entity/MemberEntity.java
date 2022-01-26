@@ -45,8 +45,7 @@ public class MemberEntity extends BaseEntity{
     @OneToMany(mappedBy = "memberEntity",fetch = FetchType.LAZY)
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "commentEntity",fetch = FetchType.LAZY)
-    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
 
     @Builder
     public void File(Long id,String origFilename, String filename,String filePath){

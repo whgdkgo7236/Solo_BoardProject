@@ -29,8 +29,48 @@
             <td><button th:onclick="updatebtn([[${boardList.id}]])" id="updatebtn">업데이트</button> </td>
         </tr>
     </table>
+    <div th:id="comment-write">
+        <input type="text" id="commentWriter" >
+        <input type="text" id="commentContents">
+        <button id="comments-write-btn">댓글등록</button>
+    </div>
+    <div id="comment-area">
+        <table>
+            <tr>
+                <th>댓글번호</th>
+                <th>작성자</th>
+                <th>내용</th>
+                <th>작성시간</th>
+            </tr>
+
+        </table>
+    </div>
+
 </body>
+
 <script>
+    $("#comments-write-btn").click(function(){
+        const commentWriter = $("#commentWriter").val();
+        const commentContents = $("#commentContents").val();
+        const boardId = "[[${boardList.id}]]";
+        $.ajax({
+            type: "post",
+            url:"/comment/save",
+            data: {
+                "commentWriter" : commentWriter,
+                "commentContents" : commentContents,
+                "boardId" : boardId
+            },
+            dataType : "json",
+            success: function (result){
+                console.log(result);
+            },
+            error: function (){
+                alert("ajax 실패");
+            }
+
+        });
+    });
     const updateBtn = document.getElementById("updatebtn");
     const sessionEmail="[[${sessionEmail}]]";
 

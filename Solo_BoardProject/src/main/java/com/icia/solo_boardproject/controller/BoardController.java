@@ -2,6 +2,7 @@ package com.icia.solo_boardproject.controller;
 
 import com.icia.solo_boardproject.dto.BoardDetailDTO;
 import com.icia.solo_boardproject.dto.BoardPagingDTO;
+import com.icia.solo_boardproject.dto.BoardSaveDTO;
 import com.icia.solo_boardproject.dto.MemberPagingDTO;
 import com.icia.solo_boardproject.service.BoardService;
 import com.icia.solo_boardproject.service.MemberService;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,5 +55,16 @@ public class BoardController {
     public ResponseEntity delete(@PathVariable Long boardid){
         bs.deleteById(boardid);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    @GetMapping("save")
+    public String saveform(Model model){
+        model.addAttribute("email",ms.findSessionEmail());
+        return "/board/save";
+    }
+    @PostMapping("save")
+    public String Save(@ModelAttribute BoardSaveDTO boardSaveDTO) throws IOException {
+        boardSaveDTO.setId(ms.findSessionId());
+        Long boardId=bs.save(boardSaveDTO);
+        return "redirect:/board/";
     }
 }
