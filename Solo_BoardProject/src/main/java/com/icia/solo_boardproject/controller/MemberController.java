@@ -52,11 +52,7 @@ public class MemberController {
 
     @PostMapping("loginDupl")
     public @ResponseBody String loginDuple(@ModelAttribute MemberLoginDTO memberLoginDTO){
-        System.out.println("컨틀올러 드렁옴 " +memberLoginDTO);
-
         String result = ms.loginDuplicate(memberLoginDTO);
-        System.out.println("logincheck result = "+result);
-
         return  result;
     }
     @PostMapping("emailDuplicate")
@@ -68,8 +64,9 @@ public class MemberController {
     @GetMapping("update/{memberid}")
     public String updateForm(@PathVariable Long memberid,Model model){
            MemberSaveDTO memberSaveDTO= ms.findById(memberid);
-        System.out.println("filepath = "+memberSaveDTO.getFilePath()+" memberfilename = "+memberSaveDTO.getMemberFilename());
+        System.out.println("filepath = "+memberSaveDTO.getFilePath()+" memberfilename = "+memberSaveDTO.getMemberFilename()+" memberOrigFileName = "+memberSaveDTO.getOrigFilename());
            model.addAttribute("memberDTO",memberSaveDTO);
+
         return "/member/update";
     }
     @PostMapping("update")

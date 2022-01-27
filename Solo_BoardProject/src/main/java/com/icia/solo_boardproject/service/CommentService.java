@@ -9,4 +9,6 @@ public interface CommentService {
     Long save(CommentSaveDTO commentSaveDTO);
 
     List<CommentDetailDTO> findAll(Long commentId);
+
+    void delete(Long commentId);
 }

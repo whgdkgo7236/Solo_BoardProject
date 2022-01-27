@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService{
     public BoardDetailDTO findById(Long boardid) {
          BoardEntity boardEntity= br.findById(boardid).get();
         BoardDetailDTO boardDetailDTO = BoardDetailDTO.toboardDetail(boardEntity);
-        System.out.println("repository = " + boardEntity.getId());
+        System.out.println("repository = " + boardDetailDTO);
         return boardDetailDTO;
     }
 
@@ -60,12 +60,13 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Long save(BoardSaveDTO boardSaveDTO) throws IOException {
-        System.out.println("boardSaveDTO = " + boardSaveDTO);
+
         MultipartFile b_file = boardSaveDTO.getBoardFile();
         String b_originfilename = b_file.getOriginalFilename();
         boardSaveDTO.setOrigFilename(b_originfilename);
         String b_filename = System.currentTimeMillis()+"-"+b_originfilename;
-        String savePath = "C:\\code\\imagedownloads\\"+b_filename;
+        boardSaveDTO.setBoardFilename(b_filename);
+        String savePath = "C:\\code\\springboot\\springboots\\Solo_BoardProject\\src\\main\\resources\\static\\imgs\\"+b_filename;
         boardSaveDTO.setFilePath(savePath);
         if(!b_file.isEmpty()){
             b_file.transferTo(new File(savePath));

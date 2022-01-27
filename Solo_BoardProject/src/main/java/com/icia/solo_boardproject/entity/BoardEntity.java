@@ -55,6 +55,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setFilename(boardSaveDTO.getBoardFilename());
         boardEntity.setFilePath(boardSaveDTO.getFilePath());
         boardEntity.setOrigFilename(boardSaveDTO.getOrigFilename());
+        boardEntity.setBoardHits(boardSaveDTO.getBoardHits());
         return boardEntity;
     }
 }

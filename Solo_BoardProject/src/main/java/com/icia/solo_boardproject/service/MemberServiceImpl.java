@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -31,14 +33,16 @@ public class MemberServiceImpl implements MemberService {
 
         String m_filename = m_file.getOriginalFilename();
         memberSaveDTO.setOrigFilename(m_filename);
-        m_filename = System.currentTimeMillis()+"-"+m_filename;
+        m_filename = System.currentTimeMillis()+"_"+m_filename;
         memberSaveDTO.setMemberFilename(m_filename);
-        String savePath = "C:\\code\\imagedownloads\\"+memberSaveDTO.getOrigFilename();
+        String savePath = "C:\\code\\springboot\\springboots\\Solo_BoardProject\\src\\main\\resources\\static\\imgs\\"+m_filename;
+
+        //String savePath = "/imgs/"+m_filename;
         memberSaveDTO.setFilePath(savePath);
         if(!m_file.isEmpty()){
             m_file.transferTo(new File(savePath));
         }
-        memberSaveDTO.setMemberFilename(m_filename);
+
         MemberEntity memberEntity = MemberEntity.toSaveEntity(memberSaveDTO);
         long memberId=mr.save(memberEntity).getId();
         return memberId;

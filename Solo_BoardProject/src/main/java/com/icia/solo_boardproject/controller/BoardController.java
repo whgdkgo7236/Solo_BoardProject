@@ -1,10 +1,8 @@
 package com.icia.solo_boardproject.controller;
 
-import com.icia.solo_boardproject.dto.BoardDetailDTO;
-import com.icia.solo_boardproject.dto.BoardPagingDTO;
-import com.icia.solo_boardproject.dto.BoardSaveDTO;
-import com.icia.solo_boardproject.dto.MemberPagingDTO;
+import com.icia.solo_boardproject.dto.*;
 import com.icia.solo_boardproject.service.BoardService;
+import com.icia.solo_boardproject.service.CommentService;
 import com.icia.solo_boardproject.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +23,7 @@ import java.io.IOException;
 public class BoardController {
     private final BoardService bs;
     private final MemberService ms;
+    private final CommentService cs;
 
 
     public static  final int BLOCK_LIMIT = 3;
@@ -46,9 +46,13 @@ public class BoardController {
     public String detail(@PathVariable Long boardid, Model model){
         System.out.println(boardid);
         BoardDetailDTO boardDetailDTO = bs.findById(boardid);
+        boardDetailDTO.setBoardHits(boardDetailDTO.getBoardHits()+1);
         model.addAttribute("boardList",boardDetailDTO);
         String sessionEmail=ms.findSessionEmail();
         model.addAttribute("sessionEmail",sessionEmail);
+
+        List<CommentDetailDTO> commentList= cs.findAll(boardid);
+        model.addAttribute("commentList",commentList);
         return "/board/detail";
     }
     @DeleteMapping("{boardid}")
@@ -64,7 +68,25 @@ public class BoardController {
     @PostMapping("save")
     public String Save(@ModelAttribute BoardSaveDTO boardSaveDTO) throws IOException {
         boardSaveDTO.setId(ms.findSessionId());
+        boardSaveDTO.setBoardHits(0L);
+
         Long boardId=bs.save(boardSaveDTO);
         return "redirect:/board/";
     }
+    @GetMapping("update/{boardId}")
+    public String updateForm(@PathVariable Long boardId,Model model){
+        BoardDetailDTO boardDetailDTO=bs.findById(boardId);
+        model.addAttribute("boardList",boardDetailDTO);
+
+
+        return "/board/update";
+    }
+    @PostMapping("update")
+    public String update(@ModelAttribute BoardSaveDTO boardSaveDTO) throws IOException {
+
+        Long boardId=bs.save(boardSaveDTO);
+
+        return "redirect:/board/"+boardId;
+    }
+
 }

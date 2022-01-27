@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentSaveDTO {
-    private Long id;
+    private Long boardId;
     private String commentWriter;
     private String commentContents;
 }

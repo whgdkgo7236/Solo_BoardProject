@@ -9,6 +9,7 @@ import com.icia.solo_boardproject.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +21,26 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Long save(CommentSaveDTO commentSaveDTO) {
-        BoardEntity boardEntity = br.findById(commentSaveDTO.getId()).get();
+        BoardEntity boardEntity = br.findById(commentSaveDTO.getBoardId()).get();
         CommentEntity commentEntity=CommentEntity.toSaveEntity(commentSaveDTO,boardEntity);
-        return cr.save(commentEntity).getId();
+        return cr.save(commentEntity).getBoardEntity().getId();
     }
 
     @Override
     public List<CommentDetailDTO> findAll(Long commentId) {
         BoardEntity boardEntity=br.findById(commentId).get();
-        return null;
+        List<CommentEntity> commentEntityList = boardEntity.getCommentEntityList();
+        List<CommentDetailDTO> commentList = new ArrayList<>();
+        for(CommentEntity c: commentEntityList){
+            CommentDetailDTO commentDetailDTO = CommentDetailDTO.toCommentDetailDTO(c);
+            commentList.add(commentDetailDTO);
+        }
+
+        return commentList;
+    }
+
+    @Override
+    public void delete(Long commentId) {
+        cr.deleteById(commentId);
     }
 }

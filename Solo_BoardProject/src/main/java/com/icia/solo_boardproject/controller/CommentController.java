@@ -5,10 +5,7 @@ import com.icia.solo_boardproject.dto.CommentSaveDTO;
 import com.icia.solo_boardproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,15 @@ public class CommentController {
 
     @PostMapping("save")
     public @ResponseBody List<CommentDetailDTO> save(@ModelAttribute CommentSaveDTO commentSaveDTO){
-        Long commentId =cs.save(commentSaveDTO);
-        List<CommentDetailDTO> commentList = cs.findAll(commentId);
+        System.out.println("cooment "+ commentSaveDTO);
+        Long boardId =cs.save(commentSaveDTO);
+        List<CommentDetailDTO> commentList = cs.findAll(boardId);
         return commentList;
+    }
+    @PostMapping("delete")
+    public @ResponseBody String delete(@RequestParam("commentId") Long commentId){
+        System.out.println(commentId);
+        cs.delete(commentId);
+        return "true";
     }
 }

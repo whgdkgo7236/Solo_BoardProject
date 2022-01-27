@@ -25,34 +25,63 @@
             <td th:text="${boardList.boardContents}"></td>
             <td th:text="${boardList.boardHits}"></td>
             <td th:multiple="${boardList.filePath}"></td>
-            <td><button th:onclick="deletebtn([[${boardList.id}]])">삭제</button></td>
+            <td><button th:onclick="deletebtn([[${boardList.id}]])" id="delete-btn">삭제</button></td>
             <td><button th:onclick="updatebtn([[${boardList.id}]])" id="updatebtn">업데이트</button> </td>
         </tr>
     </table>
     <div th:id="comment-write">
-        <input type="text" id="commentWriter" >
-        <input type="text" id="commentContents">
-        <button id="comments-write-btn">댓글등록</button>
+        작성자 : <input type="text" id="commentWriter" th:value="${sessionEmail}" readonly>
+        내용 : <input type="text" id="commentContents">
+        <button id="commentswritebtn">댓글등록</button>
     </div>
     <div id="comment-area">
         <table>
+            <thead>
             <tr>
                 <th>댓글번호</th>
                 <th>작성자</th>
                 <th>내용</th>
                 <th>작성시간</th>
+                <th>삭제</th>
             </tr>
-
+            </thead>
+            <tbody>
+            <tr th:each="comment: ${commentList}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.commentWriter}"></td>
+                <td th:text="${comment.commentContents}"></td>
+                <td th:text="${comment.createTime}"></td>
+                <td><button id="commentdeletebtn" th:onclick="commentdeletebtn([[${comment.id}]])">삭제</button></td>
+            </tr>
+            </tbody>
         </table>
     </div>
 
 </body>
 
 <script>
-    $("#comments-write-btn").click(function(){
+    function commentdeletebtn(commentId){
+        $.ajax({
+            type: "post",
+            url: "/comment/delete",
+            data:{
+                "commentId": commentId
+            },
+            dataType: "text",
+            success: function (){
+                location.href="/board/[[${boardList.id}]]";
+            },
+            error: function (){
+                alert("실패");
+            }
+        });
+    };
+
+    $("#commentswritebtn").click(function(){
         const commentWriter = $("#commentWriter").val();
         const commentContents = $("#commentContents").val();
         const boardId = "[[${boardList.id}]]";
+
         $.ajax({
             type: "post",
             url:"/comment/save",
@@ -64,6 +93,8 @@
             dataType : "json",
             success: function (result){
                 console.log(result);
+                console.log("/board/[[${boardList.id}]]");
+                location.href="/board/[[${boardList.id}]]";
             },
             error: function (){
                 alert("ajax 실패");
@@ -72,17 +103,23 @@
         });
     });
     const updateBtn = document.getElementById("updatebtn");
+    const deleteBtn = document.getElementById("delete-btn");
+    const commentdeleteBtn = document.getElementById("commentdeletebtn")
     const sessionEmail="[[${sessionEmail}]]";
 
     const boardEmail = "[[${boardList.boardWriter}]]";
 
     if(sessionEmail==boardEmail){
         updateBtn.style.visibility="visible";
+        deleteBtn.style.visibility="visible";
+        commentdeleteBtn.style.visibility="visible";
     }else{
         updateBtn.style.visibility="hidden";
+        deleteBtn.style.visibility="hidden";
+        commentdeleteBtn.visibility="hidden";
     }
     function updatebtn(id){
-        location.href="/board/update";
+        location.href="/board/update/"+id;
     }
 
     function deletebtn(boardid){
